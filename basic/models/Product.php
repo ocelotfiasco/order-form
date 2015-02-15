@@ -25,6 +25,16 @@ use yii\db\Expression;
  */
 class Product extends \yii\db\ActiveRecord
 {
+
+    /**
+     * @inheritdoc
+     * @return ProductQuery
+     */
+    public static function find()
+    {
+        return new ProductQuery(get_called_class());
+    }
+
     /**
      * @inheritdoc
      */
