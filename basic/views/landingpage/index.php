@@ -31,6 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\Column', 'content' => function($model, $key, $index, $column) {
                 return Html::a('Edit', ['update', 'id' => $model->id]);
             }],
+            ['class' => 'yii\grid\Column', 'content' => function($model, $key, $index, $column) {
+                return Html::a('Groupings', ['grouping', 'id' => $model->id]);
+            }],
         ],
     ]); ?>
 

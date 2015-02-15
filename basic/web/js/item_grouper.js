@@ -19,8 +19,8 @@ function ItemSelector(params) {
 //Adds an item to the group.
 ItemSelector.prototype.add = function() {
 	var ajaxParams = {
-		'groupingId':this.groupId,
-		'productId':$(event.target).val()
+		'gid':this.groupId,
+		'iid':$(event.target).val()
 	};
 	$.post(this.addUrl, ajaxParams, $.proxy(function(data) {
 		this.writeControls(this.contentSection, data);
@@ -42,8 +42,8 @@ ItemSelector.prototype.content = function() {
 ItemSelector.prototype.remove = function() {
 	var eValue = $(event.target).val();
 	var ajaxParams = {
-		'groupingId':this.groupId,
-		'productId':eValue
+		'gid':this.groupId,
+		'iid':eValue
 	};
 	$.post(this.removeUrl, ajaxParams, $.proxy(function(data) {
 		this.writeControls(this.contentSection, data);

@@ -3,14 +3,15 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Grouping;
-use app\models\GroupingSearch;
-use app\models\ProductGrouping;
-use app\models\Product;
+use yii\filters\VerbFilter;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\helpers\Json;
-use yii\filters\VerbFilter;
+
+use app\models\Grouping;
+use app\models\GroupingSearch;
+use app\models\Product;
+use app\models\ProductGrouping;
 
 /**
  * GroupingController implements the CRUD actions for Grouping model.
@@ -18,28 +19,15 @@ use yii\filters\VerbFilter;
 class GroupingController extends Controller
 {
 
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'add' => ['post'],
-                    'remove' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Adds a product to a grouping.
      * @return string JSON string of products in the grouping or false on failure.
      */
     public function actionAdd()
     {
-        if (Yii::$app->getRequest()->Post('groupingId') && Yii::$app->getRequest()->Post('productId')) {
-            $groupingId = (int)Yii::$app->getRequest()->Post('groupingId');
-            $productId = (int)Yii::$app->getRequest()->Post('productId');
+        if (Yii::$app->getRequest()->Post('gid') && Yii::$app->getRequest()->Post('iid')) {
+            $groupingId = (int)Yii::$app->getRequest()->Post('gid');
+            $productId = (int)Yii::$app->getRequest()->Post('iid');
             $model = ProductGrouping::find()->andWhere(['grouping_id' => $groupingId])->
                 andWhere(['product_id' => $productId])->one();
             if (!$model) {
@@ -62,7 +50,7 @@ class GroupingController extends Controller
     }
 
     /**
-     * Gets a list of all active products not in a grouping.
+     * Gets a list of all active products not in this grouping.
      * @param integer $id The Id of the grouping
      * @return string JSON product data
      */
@@ -75,17 +63,34 @@ class GroupingController extends Controller
     }
 
     /**
-     * Manages the content of a group.
-     * @param integer $id The Id of the group
+     * Gets a list of all active products in a grouping.
+     * @param integer $id The Id of the grouping
+     * @return string JSON product data
+     */
+    public function actionContent($id)
+    {
+        $products = Product::find()->inGrouping($id)->active()->
+            asArray()->all();
+        \Yii::$app->response->format = 'json';
+        return $products;
+    }
+
+    /**
+     * Creates a new Grouping model.
+     * If creation is successful, the browser will be redirected to the 'index' page.
      * @return mixed
      */
-    public function actionProduct($id)
+    public function actionCreate()
     {
-        $model = $this->findModel($id);
-    
-        return $this->render('product', [
-            'model' => $model,
-        ]);
+        $model = new Grouping();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
@@ -114,34 +119,17 @@ class GroupingController extends Controller
     }
 
     /**
-     * Creates a new Grouping model.
-     * If creation is successful, the browser will be redirected to the 'index' page.
+     * Manages the content of a group.
+     * @param integer $id The Id of the group
      * @return mixed
      */
-    public function actionCreate()
+    public function actionProduct($id)
     {
-        $model = new Grouping();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Gets a list of all active products in a grouping.
-     * @param integer $id The Id of the grouping
-     * @return string JSON product data
-     */
-    public function actionContent($id)
-    {
-        $products = Product::find()->inGrouping($id)->active()->
-            asArray()->all();
-        \Yii::$app->response->format = 'json';
-        return $products;
+        $model = $this->findModel($id);
+    
+        return $this->render('product', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -150,9 +138,9 @@ class GroupingController extends Controller
      */
     public function actionRemove()
     {
-        if (Yii::$app->getRequest()->Post('groupingId') && Yii::$app->getRequest()->Post('productId')) {
-            $groupingId = (int)Yii::$app->getRequest()->Post('groupingId');
-            $productId = (int)Yii::$app->getRequest()->Post('productId');
+        if (Yii::$app->getRequest()->Post('gid') && Yii::$app->getRequest()->Post('iid')) {
+            $groupingId = (int)Yii::$app->getRequest()->Post('gid');
+            $productId = (int)Yii::$app->getRequest()->Post('iid');
             $model = ProductGrouping::find()->andWhere(['grouping_id' => $groupingId])->
                 andWhere(['product_id' => $productId])->one();
             if ($model) {
@@ -189,6 +177,24 @@ class GroupingController extends Controller
     }
 
     /**
+     * Add verb filters so that add and remove actions
+     * can only be performed via POST.
+     * @return Array Behaviors
+     */
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'add' => ['post'],
+                    'remove' => ['post'],
+                ],
+            ],
+        ];
+    }
+
+    /**
      * Finds the Grouping model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
@@ -203,4 +209,5 @@ class GroupingController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

@@ -26,6 +26,15 @@ class Grouping extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
+     * @return GroupingQuery
+     */
+    public static function find()
+    {
+        return new GroupingQuery(get_called_class());
+    }
+
+    /**
+     * @inheritdoc
      */
     public static function tableName()
     {
