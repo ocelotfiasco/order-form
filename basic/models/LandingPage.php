@@ -11,20 +11,21 @@ use yii\db\Expression;
  * This is the model class for table "landing_page".
  *
  * @property integer $id
- * @property string $name
- * @property string $title
- * @property string $description
  * @property integer $active
  * @property integer $created
+ * @property string $description
  * @property integer $modified
+ * @property string $name
+ * @property string $title
  *
- * @property LandingPageGrouping[] $landingPageGroupings
  * @property Grouping[] $groupings
+ * @property LandingPageGrouping[] $landingPageGroupings
  * @property LandingPageProduct[] $landingPageProducts
  * @property Product[] $products
  */
 class LandingPage extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -36,33 +37,23 @@ class LandingPage extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
-        return [
-            [['name', 'title', 'description', 'active'], 'required'],
-            [['description'], 'string'],
-            [['active'], 'integer'],
-            [['name'], 'string', 'max' => 128],
-            [['title'], 'string', 'max' => 256]
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'title' => 'Title',
-            'description' => 'Description',
             'active' => 'Active',
             'created' => 'Created',
+            'description' => 'Description',
             'modified' => 'Modified',
+            'name' => 'Name',
+            'title' => 'Title',
         ];
     }
 
+    /**
+     * Add timestamp behavior.
+     * @return Array behaviors
+     */
     public function behaviors()
     {
         return [
@@ -80,17 +71,17 @@ class LandingPage extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getLandingPageGroupings()
+    public function getGroupings()
     {
-        return $this->hasMany(LandingPageGrouping::className(), ['landing_page_id' => 'id']);
+        return $this->hasMany(Grouping::className(), ['id' => 'grouping_id'])->viaTable('landing_page_grouping', ['landing_page_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getGroupings()
+    public function getLandingPageGroupings()
     {
-        return $this->hasMany(Grouping::className(), ['id' => 'grouping_id'])->viaTable('landing_page_grouping', ['landing_page_id' => 'id']);
+        return $this->hasMany(LandingPageGrouping::className(), ['landing_page_id' => 'id']);
     }
 
     /**
@@ -108,4 +99,19 @@ class LandingPage extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Product::className(), ['id' => 'product_id'])->viaTable('landing_page_product', ['landing_page_id' => 'id']);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['name', 'title', 'description', 'active'], 'required'],
+            [['description'], 'string'],
+            [['active'], 'integer'],
+            [['name'], 'string', 'max' => 128],
+            [['title'], 'string', 'max' => 256]
+        ];
+    }
+
 }

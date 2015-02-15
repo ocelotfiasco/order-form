@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+
 use app\models\LandingPage;
 
 /**
@@ -12,6 +13,7 @@ use app\models\LandingPage;
  */
 class LandingPageSearch extends LandingPage
 {
+    
     /**
      * @inheritdoc
      */
@@ -68,4 +70,5 @@ class LandingPageSearch extends LandingPage
 
         return $dataProvider;
     }
+
 }

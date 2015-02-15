@@ -1,4 +1,9 @@
-//Item selector constructor.
+/**
+ * Utility object for adding and removing items
+ * from a group of items.
+ */
+
+//Constructor.
 function ItemSelector(params) {
 	this.groupId = params.groupId;
 	this.searchUrl = params.searchUrl;
@@ -11,7 +16,7 @@ function ItemSelector(params) {
 	this.contentSection.on("click", "button", $.proxy(this.remove, this));
 }
 
-//Add item to group.
+//Adds an item to the group.
 ItemSelector.prototype.add = function() {
 	var ajaxParams = {
 		'groupingId':this.groupId,
@@ -23,7 +28,7 @@ ItemSelector.prototype.add = function() {
 	$(event.target).hide();
 }
 
-//Current contents function.
+//Displays current group content.
 ItemSelector.prototype.content = function() {
 	var ajaxParams = {
 		"id":this.groupId
@@ -33,7 +38,7 @@ ItemSelector.prototype.content = function() {
 	}, this), 'json');
 }
 
-//Remove an item from a group.
+//Removes an item from a group.
 ItemSelector.prototype.remove = function() {
 	var eValue = $(event.target).val();
 	var ajaxParams = {
@@ -46,7 +51,7 @@ ItemSelector.prototype.remove = function() {
 	}, this), 'json');
 }
 
-//Search function.
+//Searches for available items.
 ItemSelector.prototype.search = function() {
 	console.log('searching');
 	var ajaxParams = {
@@ -58,7 +63,7 @@ ItemSelector.prototype.search = function() {
 	}, this), 'json');
 }
 
-//Write the controls.
+//Writes the controls.
 ItemSelector.prototype.writeControls = function(section, data) {
 	var buttons = '';
 	var that = this;

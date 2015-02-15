@@ -7,8 +7,8 @@ use Yii;
 /**
  * This is the model class for table "landing_page_grouping".
  *
- * @property integer $landing_page_id
  * @property integer $grouping_id
+ * @property integer $landing_page_id
  *
  * @property Grouping $grouping
  * @property LandingPage $landingPage
@@ -26,22 +26,11 @@ class LandingPageGrouping extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
-        return [
-            [['landing_page_id', 'grouping_id'], 'required'],
-            [['landing_page_id', 'grouping_id'], 'integer']
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
-            'landing_page_id' => 'Landing Page ID',
             'grouping_id' => 'Grouping ID',
+            'landing_page_id' => 'Landing Page ID',
         ];
     }
 
@@ -60,4 +49,16 @@ class LandingPageGrouping extends \yii\db\ActiveRecord
     {
         return $this->hasOne(LandingPage::className(), ['id' => 'landing_page_id']);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['landing_page_id', 'grouping_id'], 'required'],
+            [['landing_page_id', 'grouping_id'], 'integer']
+        ];
+    }
+
 }

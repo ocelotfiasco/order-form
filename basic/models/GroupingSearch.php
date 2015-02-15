@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+
 use app\models\Grouping;
 
 /**
@@ -12,6 +13,7 @@ use app\models\Grouping;
  */
 class GroupingSearch extends Grouping
 {
+
     /**
      * @inheritdoc
      */
@@ -66,4 +68,5 @@ class GroupingSearch extends Grouping
 
         return $dataProvider;
     }
+
 }

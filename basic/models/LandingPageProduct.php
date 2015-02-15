@@ -15,23 +15,13 @@ use Yii;
  */
 class LandingPageProduct extends \yii\db\ActiveRecord
 {
+    
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return 'landing_page_product';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['landing_page_id', 'product_id'], 'required'],
-            [['landing_page_id', 'product_id'], 'integer']
-        ];
     }
 
     /**
@@ -60,4 +50,16 @@ class LandingPageProduct extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['landing_page_id', 'product_id'], 'required'],
+            [['landing_page_id', 'product_id'], 'integer']
+        ];
+    }
+
 }

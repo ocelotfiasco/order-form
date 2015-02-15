@@ -4,6 +4,9 @@ namespace app\assets;
 
 use yii\web\AssetBundle;
 
+/**
+ * Assets for the Javascript item grouper.
+ */
 class ItemGrouperAsset extends AssetBundle
 {
     public $basePath = '@webroot';

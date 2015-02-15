@@ -11,10 +11,10 @@ use yii\db\Expression;
  * This is the model class for table "grouping".
  *
  * @property integer $id
- * @property string $name
  * @property integer $active
  * @property integer $created
  * @property integer $modified
+ * @property string $name
  *
  * @property LandingPageGrouping[] $landingPageGroupings
  * @property LandingPage[] $landingPages
@@ -23,6 +23,7 @@ use yii\db\Expression;
  */
 class Grouping extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -34,29 +35,21 @@ class Grouping extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
-        return [
-            [['name', 'active'], 'required'],
-            [['active'], 'integer'],
-            [['name'], 'string', 'max' => 128]
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
             'active' => 'Active',
             'created' => 'Created',
             'modified' => 'Modified',
+            'name' => 'Name',
         ];
     }
 
+    /**
+     * Add timestamp behavior.
+     * @return Array behaviors
+     */
     public function behaviors()
     {
         return [
@@ -102,4 +95,16 @@ class Grouping extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Product::className(), ['id' => 'product_id'])->viaTable('product_grouping', ['grouping_id' => 'id']);
     }
+        /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['name', 'active'], 'required'],
+            [['active'], 'integer'],
+            [['name'], 'string', 'max' => 128]
+        ];
+    }
+
 }

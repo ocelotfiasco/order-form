@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+
 use app\models\Product;
 
 /**
@@ -12,16 +13,6 @@ use app\models\Product;
  */
 class ProductSearch extends Product
 {
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['id', 'active', 'created', 'modified'], 'integer'],
-            [['name'], 'safe'],
-        ];
-    }
 
     /**
      * @inheritdoc
@@ -66,4 +57,16 @@ class ProductSearch extends Product
 
         return $dataProvider;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['id', 'active', 'created', 'modified'], 'integer'],
+            [['name'], 'safe'],
+        ];
+    }
+
 }

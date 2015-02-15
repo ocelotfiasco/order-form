@@ -11,17 +11,17 @@ use yii\db\Expression;
  * This is the model class for table "product".
  *
  * @property integer $id
- * @property string $name
  * @property integer $active
  * @property integer $created
  * @property integer $modified
+ * @property string $name
  *
+ * @property Grouping[] $groupings
  * @property LandingPageProduct[] $landingPageProducts
  * @property LandingPage[] $landingPages
  * @property OrderProduct[] $orderProducts
  * @property OrderHeader[] $orders
  * @property ProductGrouping[] $productGroupings
- * @property Grouping[] $groupings
  */
 class Product extends \yii\db\ActiveRecord
 {
@@ -46,29 +46,21 @@ class Product extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
-        return [
-            [['name', 'active'], 'required'],
-            [['active'], 'integer'],
-            [['name'], 'string', 'max' => 128]
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
             'active' => 'Active',
             'created' => 'Created',
             'modified' => 'Modified',
+            'name' => 'Name',
         ];
     }
 
+    /**
+     * Add timestamp behavior.
+     * @return Array behaviors
+     */
     public function behaviors()
     {
         return [
@@ -81,6 +73,14 @@ class Product extends \yii\db\ActiveRecord
                 'value' => new Expression('UNIX_TIMESTAMP()'),
             ],
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGroupings()
+    {
+        return $this->hasMany(Grouping::className(), ['id' => 'grouping_id'])->viaTable('product_grouping', ['product_id' => 'id']);
     }
 
     /**
@@ -124,10 +124,15 @@ class Product extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @inheritdoc
      */
-    public function getGroupings()
+    public function rules()
     {
-        return $this->hasMany(Grouping::className(), ['id' => 'grouping_id'])->viaTable('product_grouping', ['product_id' => 'id']);
+        return [
+            [['name', 'active'], 'required'],
+            [['active'], 'integer'],
+            [['name'], 'string', 'max' => 128]
+        ];
     }
+
 }

@@ -15,6 +15,7 @@ use Yii;
  */
 class Country extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -22,19 +23,7 @@ class Country extends \yii\db\ActiveRecord
     {
         return 'country';
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['code', 'name'], 'required'],
-            [['code'], 'string', 'max' => 2],
-            [['name'], 'string', 'max' => 256]
-        ];
-    }
-
+ 
     /**
      * @inheritdoc
      */
@@ -54,4 +43,17 @@ class Country extends \yii\db\ActiveRecord
     {
         return $this->hasMany(OrderHeader::className(), ['country_id' => 'id']);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['code', 'name'], 'required'],
+            [['code'], 'string', 'max' => 2],
+            [['name'], 'string', 'max' => 256]
+        ];
+    }
+
 }

@@ -5,7 +5,7 @@ namespace app\models;
 use yii\db\ActiveQuery;
 
 /**
- * Custom query class for the product model.
+ * Custom query class for the Product model.
  */
 class ProductQuery extends ActiveQuery
 {
