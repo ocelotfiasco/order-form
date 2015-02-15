@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "product".
@@ -36,8 +39,8 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'active', 'created'], 'required'],
-            [['active', 'created', 'modified'], 'integer'],
+            [['name', 'active'], 'required'],
+            [['active'], 'integer'],
             [['name'], 'string', 'max' => 128]
         ];
     }
@@ -53,6 +56,20 @@ class Product extends \yii\db\ActiveRecord
             'active' => 'Active',
             'created' => 'Created',
             'modified' => 'Modified',
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'modified',
+                ],
+                'value' => new Expression('UNIX_TIMESTAMP()'),
+            ],
         ];
     }
 

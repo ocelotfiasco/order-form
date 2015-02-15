@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "landing_page".
@@ -36,9 +39,9 @@ class LandingPage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'title', 'description', 'active', 'created'], 'required'],
+            [['name', 'title', 'description', 'active'], 'required'],
             [['description'], 'string'],
-            [['active', 'created', 'modified'], 'integer'],
+            [['active'], 'integer'],
             [['name'], 'string', 'max' => 128],
             [['title'], 'string', 'max' => 256]
         ];
@@ -57,6 +60,20 @@ class LandingPage extends \yii\db\ActiveRecord
             'active' => 'Active',
             'created' => 'Created',
             'modified' => 'Modified',
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'modified',
+                ],
+                'value' => new Expression('UNIX_TIMESTAMP()'),
+            ],
         ];
     }
 
