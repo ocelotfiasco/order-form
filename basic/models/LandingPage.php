@@ -28,6 +28,15 @@ class LandingPage extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
+     * @return LandingPageQuery
+     */
+    public static function find()
+    {
+        return new LandingPageQuery(get_called_class());
+    }
+
+    /**
+     * @inheritdoc
      */
     public static function tableName()
     {

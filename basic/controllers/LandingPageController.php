@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -12,6 +13,7 @@ use app\models\Grouping;
 use app\models\LandingPage;
 use app\models\LandingPageGrouping;
 use app\models\LandingPageSearch;
+use app\models\Order;
 
 /**
  * LandingPageController implements the CRUD actions for LandingPage model.
@@ -57,7 +59,7 @@ class LandingPageController extends Controller
     public function actionAvailable($id)
     {
         $groupings = Grouping::find()->notOnLandingPage($id)->active()->
-            asArray()->all();
+            orderBy(['Name' => 'ASC'])->asArray()->all();
         \Yii::$app->response->format = 'json';
         return $groupings;
     }
@@ -70,7 +72,7 @@ class LandingPageController extends Controller
     public function actionContent($id)
     {
         $groupings = Grouping::find()->onLandingPage($id)->active()->
-            asArray()->all();
+            orderBy(['Name' => 'ASC'])->asArray()->all();
         \Yii::$app->response->format = 'json';
         return $groupings;
     }
@@ -89,6 +91,36 @@ class LandingPageController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+            ]);
+        }
+    }
+
+   /**
+     * Displays a LandingPage for the end user.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDisplay($id)
+    {
+        $model = LandingPage::find()->active()->andWhere(['id' => $id])->one();
+        if (!$model) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $this->layout = 'customer';
+        
+
+        $orderModel = new Order();
+        $groupings = Grouping::find()->onLandingPage($id)->active()->
+            orderBy(['Name' => 'ASC'])->asArray()->all();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+           // return $this->redirect(['index']);
+        } else {
+            return $this->render('display', [
+                'groupings' => ArrayHelper::Map($groupings, 'id', 'name'),
+                'model' => $model,
+                'orderModel' => $orderModel,
             ]);
         }
     }
@@ -148,7 +180,7 @@ class LandingPageController extends Controller
             }
 
             $groupings = Grouping::find()->onlandingpage($landingPageId)->active()->
-            asArray()->all();
+            orderBy(['Name' => 'ASC'])->asArray()->all();
         } else {
             $groupings = false;
         }

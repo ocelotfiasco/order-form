@@ -40,7 +40,7 @@ class GroupingController extends Controller
             }
 
             $products = Product::find()->inGrouping($groupingId)->active()->
-            asArray()->all();
+            orderBy(['Name' => 'ASC'])->asArray()->all();
         } else {
             $products = false;
         }
@@ -57,7 +57,7 @@ class GroupingController extends Controller
     public function actionAvailable($id)
     {
         $products = Product::find()->notInGrouping($id)->active()->
-            asArray()->all();
+            orderBy(['Name' => 'ASC'])->asArray()->all();
         \Yii::$app->response->format = 'json';
         return $products;
     }
@@ -70,7 +70,7 @@ class GroupingController extends Controller
     public function actionContent($id)
     {
         $products = Product::find()->inGrouping($id)->active()->
-            asArray()->all();
+            orderBy(['Name' => 'ASC'])->asArray()->all();
         \Yii::$app->response->format = 'json';
         return $products;
     }
@@ -148,7 +148,7 @@ class GroupingController extends Controller
             }
 
             $products = Product::find()->inGrouping($groupingId)->active()->
-            asArray()->all();
+            orderBy(['Name' => 'ASC'])->asArray()->all();
         } else {
             $products = false;
         }
