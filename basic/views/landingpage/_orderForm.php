@@ -7,7 +7,12 @@ use yii\helpers\Html;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $model app\models\Order */
 ?>
-
+<div class="bg-success">
+    <h3><?= Yii::$app->session->getFlash('message'); ?></h3>
+</div>
+<div class="bg-danger">
+    <h4><?= Yii::$app->session->getFlash('error'); ?></h4>
+</div>
 <h3>Delivery Details</h3>
 
 <div class="order-form">
@@ -31,9 +36,7 @@ use yii\helpers\Html;
     <?= $form->field($model, 'country_id')->dropDownList($countries) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Complete' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton('Submit Order', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
-
-  
 
 </div>

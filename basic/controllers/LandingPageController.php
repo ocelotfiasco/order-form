@@ -15,6 +15,7 @@ use app\models\LandingPage;
 use app\models\LandingPageGrouping;
 use app\models\LandingPageSearch;
 use app\models\Order;
+use app\models\Product;
 
 /**
  * LandingPageController implements the CRUD actions for LandingPage model.
@@ -110,24 +111,41 @@ class LandingPageController extends Controller
 
         $orderModel = new Order();
         if ($orderModel->load(Yii::$app->request->post()) && $orderModel->validate()) {
-            $orderModel->save();
-            echo($orderModel->id);
-            exit();
-        } else
-        {
-            $countries = Country::find()->orderBy(['Name' => 'ASC'])->asArray()->all();
-            $groupings = Grouping::find()->onLandingPage($id)->active()->
-                orderBy(['Name' => 'ASC'])->asArray()->all();
-
-            $this->layout = 'customer';
-            return $this->render('display', [
-                'countries' => ArrayHelper::Map($countries, 'id', 'name'),
-                'groupings' => ArrayHelper::Map($groupings, 'id', 'name'),
-                'model' => $model,
-                'orderModel' => $orderModel,
-            ]);
-        
+            if (Yii::$app->request->post('groupings')) {
+                $groupingsOrdered = Yii::$app->request->post('groupings');
+                $productsOrdered = [];
+                foreach ($groupingsOrdered as $g) {
+                    $products = Product::find()->distinct()->inGrouping($g)->active()->asArray()->all();
+                    $products = ArrayHelper::Map($products, 'id', 'id');
+                    $productsOrdered = array_merge($productsOrdered, $products);
+                }
+                if (count($productsOrdered) > 0) {
+                    $orderModel->save();
+                    $prods = [];
+                    foreach ($productsOrdered as $p) {
+                        $prods[] = [$orderModel->id, $p];
+                    }
+                    Yii::$app->db->createCommand()->batchInsert('order_product', ['order_id', 'product_id'], $prods)->execute();
+                    Yii::$app->getSession()->setFlash('message', 'Thank you for your order.');
+                } else {
+                    Yii::$app->getSession()->setFlash('error', 'You must select at least one item.');
+                }
+            } else {
+                Yii::$app->getSession()->setFlash('error', 'You must select at least one item.');
+            }
         }
+
+        $countries = Country::find()->orderBy(['Name' => 'ASC'])->asArray()->all();
+        $groupings = Grouping::find()->onLandingPage($id)->active()->
+            orderBy(['Name' => 'ASC'])->asArray()->all();
+
+        $this->layout = 'customer';
+        return $this->render('display', [
+            'countries' => ArrayHelper::Map($countries, 'id', 'name'),
+            'groupings' => ArrayHelper::Map($groupings, 'id', 'name'),
+            'model' => $model,
+            'orderModel' => $orderModel,
+        ]);
     }
 
     /**
