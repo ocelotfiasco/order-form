@@ -36,3 +36,48 @@ INSERT INTO grouping (name, active, created) VALUES ('Basket 6', 1, UNIX_TIMESTA
 INSERT INTO grouping (name, active, created) VALUES ('Basket 7', 1, UNIX_TIMESTAMP()); 
 INSERT INTO grouping (name, active, created) VALUES ('Basket 8', 1, UNIX_TIMESTAMP()); 
 INSERT INTO grouping (name, active, created) VALUES ('Basket 9', 1, UNIX_TIMESTAMP()); 
+
+INSERT INTO landing_page (name, title, description, active, created) VALUES ('January Win-Back Campaign', 'Welcome Back!', '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum', 1, UNIX_TIMESTAMP()); 
+INSERT INTO landing_page (name, title, description, active, created) VALUES ('February New Users', 'Thank You for Joining!', '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum', 1, UNIX_TIMESTAMP()); 
+INSERT INTO landing_page (name, title, description, active, created) VALUES ('February Repeat Customers', 'Good to See You Again!', '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum', 1, UNIX_TIMESTAMP()); 
+
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (1, 1);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (2, 1);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (3, 1);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (4, 1);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (5, 1);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (6, 1);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (7, 1);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (8, 2);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (9, 2);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (1, 3);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (2, 3);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (3, 3);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (4, 3);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (5, 3);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (11, 4);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (12, 4);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (13, 4);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (14, 4);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (15, 4);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (21, 5);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (22, 5);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (23, 5);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (24, 5);
+INSERT INTO product_grouping (product_id, grouping_id) VALUES (25, 5);
+
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (1, 1);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (1, 2);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (1, 3);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (1, 4);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (1, 5);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (2, 1);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (2, 4);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (2, 5);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (2, 6);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (2, 7);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (3, 1);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (3, 2);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (3, 4);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (3, 5);
+INSERT INTO landing_page_grouping (landing_page_id, grouping_id) VALUES (3, 9);
