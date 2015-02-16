@@ -4,10 +4,12 @@ namespace app\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
+use yii\web\Controller;
+
 use app\models\ContactForm;
+use app\models\LandingPage;
+use app\models\LoginForm;
 
 class SiteController extends Controller
 {
@@ -49,7 +51,12 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $landingPages = LandingPage::find()->active()->
+            orderBy(['name' => 'ASC'])->asArray()->all();
+
+        return $this->render('index', [
+            'landingPages' => $landingPages,
+        ]);
     }
 
     public function actionLogin()
