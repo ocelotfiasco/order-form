@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "order_header".
@@ -55,6 +58,23 @@ class Order extends \yii\db\ActiveRecord
     }
 
     /**
+     * Add timestamp behavior.
+     * @return Array behaviors
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created',
+                ],
+                'value' => new Expression('UNIX_TIMESTAMP()'),
+            ],
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getCountry()
@@ -84,11 +104,12 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'address_1', 'city', 'state', 'postal', 'country_id', 'created'], 'required'],
-            [['country_id', 'created'], 'integer'],
+            [['first_name', 'last_name', 'address_1', 'city', 'state', 'postal', 'country_id'], 'required'],
+            [['country_id'], 'integer'],
             [['first_name', 'last_name'], 'string', 'max' => 64],
             [['address_1', 'address_2', 'address_3', 'city', 'state'], 'string', 'max' => 128],
-            [['postal'], 'string', 'max' => 16]
+            [['postal'], 'string', 'max' => 16],
+            [['address_2', 'address_3'], 'default', 'value' => null]
         ];
     }
 

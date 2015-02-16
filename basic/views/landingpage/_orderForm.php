@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 
-
 /* @var $this yii\web\View */
-/* @var $model app\models\Order */
+/* @var $countries Array */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $model app\models\Order */
 ?>
 
 <h3>Delivery Details</h3>
@@ -28,7 +28,7 @@ use yii\helpers\Html;
 
     <?= $form->field($model, 'postal')->textInput(['maxlength' => 16]) ?>
 
-    <?= $form->field($model, 'country_id')->textInput() ?>
+    <?= $form->field($model, 'country_id')->dropDownList($countries) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Complete' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -9,6 +9,7 @@ use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
+use app\models\Country;
 use app\models\Grouping;
 use app\models\LandingPage;
 use app\models\LandingPageGrouping;
@@ -107,21 +108,25 @@ class LandingPageController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
-        $this->layout = 'customer';
-        
-
         $orderModel = new Order();
-        $groupings = Grouping::find()->onLandingPage($id)->active()->
-            orderBy(['Name' => 'ASC'])->asArray()->all();
+        if ($orderModel->load(Yii::$app->request->post()) && $orderModel->validate()) {
+            $orderModel->save();
+            echo($orderModel->id);
+            exit();
+        } else
+        {
+            $countries = Country::find()->orderBy(['Name' => 'ASC'])->asArray()->all();
+            $groupings = Grouping::find()->onLandingPage($id)->active()->
+                orderBy(['Name' => 'ASC'])->asArray()->all();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-           // return $this->redirect(['index']);
-        } else {
+            $this->layout = 'customer';
             return $this->render('display', [
+                'countries' => ArrayHelper::Map($countries, 'id', 'name'),
                 'groupings' => ArrayHelper::Map($groupings, 'id', 'name'),
                 'model' => $model,
                 'orderModel' => $orderModel,
             ]);
+        
         }
     }
 

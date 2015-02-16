@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
+/* @var $countries Array */
 /* @var $model app\models\LandingPage */
 /* @var $orderModel app\models\Order */
 
@@ -35,6 +36,7 @@ $this->title = $model->title;
 
 					<div class="col-md-6 col-sm-6">
 						<?= $this->render('_orderForm', [
+							'countries' => $countries,
 							'form' => $form,
 					        'model' => $orderModel,
 					    ]) ?>
